@@ -1,0 +1,59 @@
+version: "3.7"
+services:
+
+  node1:
+    container_name: Node1
+    build: container/.
+    environment:
+      OTHER_NODES: "node2|node3|node4|node5"
+      NODE_ID: "node1"
+    networks:
+      - backbone
+
+  node2:
+    container_name: Node2
+    build: container/.
+    environment:
+      OTHER_NODES: "node1|node3|node4|node5"
+      NODE_ID: "node2"
+    networks:
+      - backbone
+
+  node3:
+    container_name: Node3
+    build: container/.
+    environment:
+      OTHER_NODES: "node1|node2|node4|node5"
+      NODE_ID: "node3"
+    networks:
+      - backbone
+
+  node4:
+    container_name: Node4
+    build: container/.
+    environment:
+      OTHER_NODES: "node1|node2|node3|node5"
+      NODE_ID: "node4"
+    networks:
+      - backbone
+
+  node5:
+    container_name: Node5
+    build: container/.
+    environment:
+      OTHER_NODES: "node1|node2|node3|node4"
+      NODE_ID: "node5"
+    networks:
+      - backbone
+
+  #Do not change the part below
+  controller:
+    container_name: Controller
+    build: Controller/.
+    stdin_open: true
+    networks:
+      - backbone
+
+networks:
+  backbone:
+    driver: bridge
